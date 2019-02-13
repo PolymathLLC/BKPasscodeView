@@ -30,6 +30,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong, readonly) BKPasscodeInputView     *passcodeInputView;
 @property (nonatomic, strong) BKTouchIDManager                  *touchIDManager;
 
+@property (nonatomic, strong) UIColor *backgroundColor;
+
 /**
  * Customize passcode input view
  * You may override to customize passcode input view appearance.

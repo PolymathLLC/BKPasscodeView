@@ -168,6 +168,12 @@
     viewController.delegate = self;
     viewController.type = type;
 
+    viewController.backgroundColor = UIColor.redColor;
+    viewController.passcodeInputView.titleColor = UIColor.whiteColor;
+    viewController.passcodeInputView.messageColor = UIColor.whiteColor;
+    viewController.passcodeInputView.errorMessageColor = UIColor.whiteColor;
+    viewController.passcodeInputView.dotColor = UIColor.whiteColor;
+    
     // Passcode style (numeric or ASCII)
     viewController.passcodeStyle = (self.simplePasscodeSwitch.isOn) ? BKPasscodeInputViewNumericPasscodeStyle : BKPasscodeInputViewNormalPasscodeStyle;
     
@@ -179,6 +185,8 @@
     viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(passcodeViewCloseButtonPressed:)];
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    navController.navigationBar.opaque = NO;
+    navController.navigationBar.translucent = NO;
     
     if (self.authWithTouchIDFirstSwitch.isOn && viewController.type == BKPasscodeViewControllerCheckPasscodeType) {
         

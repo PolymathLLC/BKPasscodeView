@@ -140,6 +140,7 @@
                 passcodeField.delegate = self;
                 passcodeField.keyboardType = _keyboardType;
                 passcodeField.maximumLength = _maximumLength;
+                passcodeField.dotColor = _dotColor;
                 [passcodeField addTarget:self action:@selector(passcodeControlEditingChanged:) forControlEvents:UIControlEventEditingChanged];
                 
                 [self setPasscodeField:passcodeField];

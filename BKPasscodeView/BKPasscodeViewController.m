@@ -60,6 +60,8 @@ typedef enum : NSUInteger {
                                                    object:nil];
         
         self.keyboardHeight = kBKPasscodeDefaultKeyboardHeight;      // sometimes keyboard notification is not posted at all. so setting default value.
+        
+        self.backgroundColor = UIColor.whiteColor;
     }
     return self;
 }
@@ -117,8 +119,7 @@ typedef enum : NSUInteger {
 {
     [super viewDidLoad];
     
-    [self.view setBackgroundColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.96 alpha:1]];
-    [self.view setBackgroundColor:UIColor.redColor];
+    [self.view setBackgroundColor:self.backgroundColor];
    
     [self updatePasscodeInputViewTitle:self.passcodeInputView];
     
@@ -334,6 +335,14 @@ typedef enum : NSUInteger {
         default:
             break;
     }
+    
+    passcodeInputView.titleFont = self.passcodeInputView.titleFont;
+    passcodeInputView.titleColor = self.passcodeInputView.titleColor;
+    passcodeInputView.messageFont = self.passcodeInputView.messageFont;
+    passcodeInputView.messageColor = self.passcodeInputView.messageColor;
+    passcodeInputView.errorMessageFont = self.passcodeInputView.errorMessageFont;
+    passcodeInputView.errorMessageColor = self.passcodeInputView.errorMessageColor;
+    passcodeInputView.dotColor = self.passcodeInputView.dotColor;
 }
 
 - (void)showFailedAttemptsCount:(NSUInteger)failCount inputView:(BKPasscodeInputView *)aInputView

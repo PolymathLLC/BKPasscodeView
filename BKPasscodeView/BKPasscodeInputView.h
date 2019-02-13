@@ -41,6 +41,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIColor                   *messageColor;
 @property (nonatomic, strong) UIFont                    *errorMessageFont;
 @property (nonatomic, strong) UIColor                   *errorMessageColor;
+@property (nonatomic, strong) UIColor                   *dotColor;
 
 // You can override these methods to customize message label appearance.
 + (void)configureTitleLabel:(UILabel *)aLabel;
