@@ -168,14 +168,13 @@
     viewController.delegate = self;
     viewController.type = type;
 
-    viewController.backgroundColor = UIColor.whiteColor;
+    viewController.backgroundColor = UIColor.redColor;
     
     LanguageSettings *language = [[LanguageSettings alloc] init];
     language.failed_passcode_attempt = @"Your passcode is wrong";
     language.failed_passcode_attempts = @"Your passcode is wrong (%d)";
     
     viewController.passcodeInputView.language = language;
-    viewController.passcodeInputView.headerTitle = @"Passcode Settings";
     viewController.passcodeInputView.titleColor = UIColor.whiteColor;
     viewController.passcodeInputView.messageColor = UIColor.whiteColor;
     viewController.passcodeInputView.errorMessageColor = UIColor.whiteColor;
@@ -185,6 +184,7 @@
     // Passcode style (numeric or ASCII)
     viewController.passcodeStyle = BKPasscodeInputViewNumericPasscodeStyle;
     [viewController setCancelButtonTitle:@"Cancel" font:[UIFont systemFontOfSize:20.0] color:UIColor.redColor];
+    [viewController setTitleLabelTitle:@"Passcode Settings" font:[UIFont systemFontOfSize:20.0] color:UIColor.blackColor];
     
 //    viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(passcodeViewCloseButtonPressed:)];
 //

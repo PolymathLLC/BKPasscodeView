@@ -28,10 +28,6 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) LanguageSettings *language;
 
-@property (nonatomic, strong) NSString *headerTitle;
-@property (nonatomic, strong) UIFont *headerTitleFont;
-@property (nonatomic, strong) UIColor *headerTitleColor;
-
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) UIFont *titleFont;
 @property (nonatomic, strong) UIColor *titleColor;
@@ -51,10 +47,11 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong, readonly) UIControl *passcodeField;
 @property (nonatomic, strong) UIColor *dotColor;
 
-+ (void)configureHeaderTitleLabel:(UILabel *)aLabel;
 + (void)configureTitleLabel:(UILabel *)aLabel;
 + (void)configureMessageLabel:(UILabel *)aLabel;
 + (void)configureErrorMessageLabel:(UILabel *)aLabel;
+
+- (CGFloat)labelPasscodeSpace;
 
 @end
 

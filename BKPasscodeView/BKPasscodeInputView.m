@@ -23,7 +23,6 @@
     BOOL _isKeyboardTypeSet;
 }
 
-@property (nonatomic, strong) UILabel *headerTitleLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
 @property (nonatomic, strong) UILabel *errorMessageLabel;
@@ -64,10 +63,6 @@
     _keyboardType = UIKeyboardTypeNumberPad;
     _maximumLength = 0;
     _language = [[LanguageSettings alloc] init];
-    
-    _headerTitleLabel = [[UILabel alloc] init];
-    [[self class] configureHeaderTitleLabel:_headerTitleLabel];
-    [self addSubview:_headerTitleLabel];
     
     _titleLabel = [[UILabel alloc] init];
     [[self class] configureTitleLabel:_titleLabel];
@@ -222,17 +217,6 @@
     [(id<UITextInputTraits>)_passcodeField setKeyboardType:keyboardType];
 }
 
-- (void)setHeaderTitle:(NSString *)headerTitle
-{
-    self.headerTitleLabel.text = headerTitle;
-    [self setNeedsLayout];
-}
-
-- (NSString *)headerTitle
-{
-    return self.headerTitleLabel.text;
-}
-
 - (void)setTitle:(NSString *)title
 {
     self.titleLabel.text = title;
@@ -299,26 +283,6 @@
 }
 
 #pragma mark - Customizations
-
-- (UIFont *)headerTitleFont
-{
-    return self.headerTitleLabel.font;
-}
-
-- (void)setHeaderTitleFont:(UIFont *)font
-{
-    self.headerTitleLabel.font = font;
-}
-
-- (UIColor *)headerTitleColor
-{
-    return self.headerTitleLabel.textColor;
-}
-
-- (void)setHeaderTitleColor:(UIColor *)color
-{
-    self.headerTitleLabel.textColor = color;
-}
 
 - (UIFont *)titleFont
 {
@@ -413,16 +377,7 @@
     CGFloat maxTextWidth = self.frame.size.width - (kTextLeftRightSpace * 2.0f);
     CGFloat labelPasscodeSpace = [self labelPasscodeSpace];
     CGRect rect = CGRectZero;
-    
-    // layout header title label
-    _headerTitleLabel.frame = CGRectMake(kTextLeftRightSpace, 0, maxTextWidth, self.frame.size.height);
-    [_headerTitleLabel sizeToFit];
-    
-    rect = _headerTitleLabel.frame;
-    rect.origin.x = floorf((self.frame.size.width - CGRectGetWidth(rect)) * 0.5f);
-    rect.origin.y = CGRectGetMinY(self.passcodeField.frame) - 3.5*labelPasscodeSpace - CGRectGetHeight(_headerTitleLabel.frame);
-    _headerTitleLabel.frame = rect;
-    
+
     // layout title label
     _titleLabel.frame = CGRectMake(kTextLeftRightSpace, 0, maxTextWidth, self.frame.size.height);
     [_titleLabel sizeToFit];

@@ -30,6 +30,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) BKShiftingView *shiftingView;
 @property (nonatomic, strong) AFViewShaker *viewShaker;
+
+@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *cancelButton;
 
 @property (nonatomic, assign) CGFloat keyboardHeight;
@@ -51,6 +53,10 @@ typedef enum : NSUInteger {
         self.shiftingView = [[BKShiftingView alloc] init];
         self.shiftingView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.shiftingView.currentView = [self instantiatePasscodeInputView];
+        
+        // title label
+        self.titleLabel = [[UILabel alloc] init];
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
         
         // cancel button
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -74,6 +80,16 @@ typedef enum : NSUInteger {
     [self.cancelButton setTitle:title forState:UIControlStateNormal];
     self.cancelButton.titleLabel.font = font;
     self.cancelButton.tintColor = color;
+}
+
+- (void)setTitleLabelTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
+{
+    self.titleLabel.text = title;
+    self.titleLabel.font = font;
+    self.titleLabel.textColor = color;
+    
+    [self.titleLabel sizeToFit];
+    [self configTitleLabelFrame];
 }
 
 - (void)dealloc
@@ -134,6 +150,7 @@ typedef enum : NSUInteger {
     [self customizePasscodeInputView:self.passcodeInputView];
     
     [self.view addSubview:self.shiftingView];
+    [self.view addSubview:self.titleLabel];
     [self.view addSubview:self.cancelButton];
     
     [self lockIfNeeded];
@@ -160,17 +177,32 @@ typedef enum : NSUInteger {
 {
     [super viewDidLayoutSubviews];
     
-    CGRect frame = self.view.bounds;
+    CGFloat topBarOffset = 0.0;
+    if ([self respondsToSelector:@selector(topLayoutGuide)]) {
+        topBarOffset = [self.topLayoutGuide length];
+    }
     
+    CGRect frame = self.view.bounds;
+    frame.origin.y += topBarOffset;
+    frame.size.height -= (topBarOffset + self.keyboardHeight);
+    self.shiftingView.frame = frame;
+    
+    [self configTitleLabelFrame];
+}
+
+- (void)configTitleLabelFrame
+{
     CGFloat topBarOffset = 0;
     if ([self respondsToSelector:@selector(topLayoutGuide)]) {
         topBarOffset = [self.topLayoutGuide length];
     }
     
-    frame.origin.y += topBarOffset;
-    frame.size.height -= (topBarOffset + self.keyboardHeight);
-
-    self.shiftingView.frame = frame;
+    CGRect frame = self.titleLabel.frame;
+    frame.origin.x = (self.view.bounds.size.width - frame.size.width)/2.0;
+    frame.origin.y = topBarOffset + [self.passcodeInputView labelPasscodeSpace]*1.5;
+    self.titleLabel.frame = frame;
+    
+    self.titleLabel.backgroundColor = UIColor.purpleColor;
 }
 
 #pragma mark - Public methods
@@ -341,11 +373,7 @@ typedef enum : NSUInteger {
     }
     
     passcodeInputView.language = self.passcodeInputView.language;
-    
-    passcodeInputView.headerTitle = self.passcodeInputView.headerTitle;
-    passcodeInputView.headerTitleFont = self.passcodeInputView.headerTitleFont;
-    passcodeInputView.headerTitleColor = self.passcodeInputView.headerTitleColor;
-    
+
     passcodeInputView.titleFont = self.passcodeInputView.titleFont;
     passcodeInputView.titleColor = self.passcodeInputView.titleColor;
     
