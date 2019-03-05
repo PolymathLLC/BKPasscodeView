@@ -54,7 +54,7 @@ typedef enum : NSUInteger {
         
         // cancel button
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        self.cancelButton.bounds = CGRectMake(0.0, 0.0, 50.0, 44.0);
+        self.cancelButton.bounds = CGRectMake(0.0, 0.0, 60.0, 44.0);
         [self.cancelButton addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpInside];
         
         // keyboard notifications
