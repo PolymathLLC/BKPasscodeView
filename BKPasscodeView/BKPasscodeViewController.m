@@ -61,12 +61,14 @@ typedef enum : NSUInteger {
         // cancel button
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
         self.cancelButton.bounds = CGRectMake(0.0, 0.0, 60.0, 44.0);
+        self.cancelButton.hidden = YES;
         [self.cancelButton addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpInside];
         
         // keyboard notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveKeyboardWillShowHideNotification:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveKeyboardWillShowHideNotification:) name:UIKeyboardWillHideNotification object:nil];
-
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveKeyboardDidShowNotification:) name:UIKeyboardDidShowNotification object:nil];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveApplicationWillEnterForegroundNotification:) name:UIApplicationWillEnterForegroundNotification object:nil];
         
         self.keyboardHeight = kBKPasscodeDefaultKeyboardHeight;
@@ -182,11 +184,13 @@ typedef enum : NSUInteger {
         topBarOffset = [self.topLayoutGuide length];
     }
     
-    CGRect frame = self.view.bounds;
+    CGRect frame = CGRectZero;
+    
+    frame = self.view.bounds;
     frame.origin.y += topBarOffset;
     frame.size.height -= (topBarOffset + self.keyboardHeight);
     self.shiftingView.frame = frame;
-    
+
     [self configTitleLabelFrame];
 }
 
@@ -288,7 +292,7 @@ typedef enum : NSUInteger {
     BKPasscodeInputView *inputView = self.passcodeInputView;
     
     NSDate *lockUntil = [self.delegate passcodeViewControllerLockUntilDate:self];
-
+    
     if (lockUntil == nil || [lockUntil timeIntervalSinceNow] < 0) {
         
         // invalidate timer
@@ -332,7 +336,7 @@ typedef enum : NSUInteger {
             self.passcodeInputView.passcode = passcode;
             [self passcodeInputViewDidFinish:self.passcodeInputView];
         }
-            
+        
         if (aCompletionBlock) {
             aCompletionBlock(YES);
         }
@@ -371,7 +375,7 @@ typedef enum : NSUInteger {
     }
     
     passcodeInputView.language = self.passcodeInputView.language;
-
+    
     passcodeInputView.titleFont = self.passcodeInputView.titleFont;
     passcodeInputView.titleColor = self.passcodeInputView.titleColor;
     
@@ -416,7 +420,7 @@ typedef enum : NSUInteger {
     if (self.type != BKPasscodeViewControllerCheckPasscodeType) {
         return NO;
     }
-   
+    
     if (nil == self.touchIDManager || NO == self.touchIDManager.isTouchIDEnabled) {
         return NO;
     }
@@ -584,8 +588,13 @@ typedef enum : NSUInteger {
         self.keyboardHeight = CGRectGetHeight(keyboardRect);
     }
     
-    self.cancelButton.frame = (CGRect){CGPointMake(0.0, self.view.bounds.size.height - self.keyboardHeight - self.cancelButton.bounds.size.height), self.cancelButton.bounds.size};
     [self.view setNeedsLayout];
+}
+
+- (void)didReceiveKeyboardDidShowNotification:(NSNotification *)notification
+{
+    self.cancelButton.frame = (CGRect){CGPointMake(0.0, self.view.bounds.size.height - self.keyboardHeight - self.cancelButton.bounds.size.height), self.cancelButton.bounds.size};
+    self.cancelButton.hidden = NO;
 }
 
 - (void)didReceiveApplicationWillEnterForegroundNotification:(NSNotification *)notification
