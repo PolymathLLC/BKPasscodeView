@@ -201,8 +201,6 @@ typedef enum : NSUInteger {
     frame.origin.x = (self.view.bounds.size.width - frame.size.width)/2.0;
     frame.origin.y = topBarOffset + [self.passcodeInputView labelPasscodeSpace]*1.5;
     self.titleLabel.frame = frame;
-    
-    self.titleLabel.backgroundColor = UIColor.purpleColor;
 }
 
 #pragma mark - Public methods
