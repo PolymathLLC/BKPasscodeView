@@ -40,7 +40,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self _initialize];
+        [self initialize];
     }
     return self;
 }
@@ -49,12 +49,12 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        [self _initialize];
+        [self initialize];
     }
     return self;
 }
 
-- (void)_initialize
+- (void)initialize
 {
     self.backgroundColor = [UIColor clearColor];
     
@@ -75,6 +75,8 @@
     [[self class] configureErrorMessageLabel:_errorMessageLabel];
     _errorMessageLabel.hidden = YES;
     [self addSubview:_errorMessageLabel];
+    
+    _language = [[LanguageSettings alloc] initDefault];
 }
 
 + (void)configureTitleLabel:(UILabel *)aLabel
@@ -494,5 +496,29 @@
 
 @implementation LanguageSettings
 
+- (id)initDefault
+{
+    self = [super init];
+    if (self) {
+        _enter_old_passcode = NSLocalizedStringFromTable(@"Enter your old passcode", @"BKPasscodeView", @"기존 암호 입력");
+        _enter_your_passcode = NSLocalizedStringFromTable(@"Enter your passcode", @"BKPasscodeView", @"암호 입력");
+        
+        _enter_new_passcode = NSLocalizedStringFromTable(@"Enter your new passcode", @"BKPasscodeView", @"새로운 암호 입력");
+        _enter_a_passcode = NSLocalizedStringFromTable(@"Enter a passcode", @"BKPasscodeView", @"암호 입력");
+        
+        _re_enter_passcode = NSLocalizedStringFromTable(@"Re-enter your passcode", @"BKPasscodeView", @"암호 재입력");
+        
+        _invalid_passcode = NSLocalizedStringFromTable(@"Invalid Passcode", @"BKPasscodeView", @"잘못된 암호");
+        _failed_passcode_attempt = NSLocalizedStringFromTable(@"1 Failed Passcode Attempt", @"BKPasscodeView", @"1번의 암호 입력 시도 실패");
+        _failed_passcode_attempts = NSLocalizedStringFromTable(@"%d Failed Passcode Attempts", @"BKPasscodeView", @"%d번의 암호 입력 시도 실패");
+        
+        _enter_different_passcode = NSLocalizedStringFromTable(@"Enter a different passcode. Cannot re-use the same passcode.", @"BKPasscodeView", @"다른 암호를 입력하십시오. 동일한 암호를 다시 사용할 수 없습니다.");
+        _passcode_not_match = NSLocalizedStringFromTable(@"Passcodes did not match.\nTry again.", @"BKPasscodeView", @"암호가 일치하지 않습니다.\n다시 시도하십시오.");
+        
+        _try_again_minute = NSLocalizedStringFromTable(@"Try again in 1 minute", @"BKPasscodeView", @"1분 후에 다시 시도");
+        _try_again_minutes = NSLocalizedStringFromTable(@"Try again in %d minutes", @"BKPasscodeView", @"%d분 후에 다시 시도");
+    }
+    return self;
+}
 
 @end

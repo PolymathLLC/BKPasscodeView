@@ -16,6 +16,7 @@ typedef enum : NSUInteger {
 } BKPasscodeInputViewPasscodeStyle;
 
 @protocol BKPasscodeInputViewDelegate;
+@class LanguageSettings;
 
 @interface BKPasscodeInputView : UIView <UITextFieldDelegate, BKPasscodeFieldDelegate, NSCopying>
 
@@ -24,6 +25,8 @@ typedef enum : NSUInteger {
 @property (nonatomic) BKPasscodeInputViewPasscodeStyle passcodeStyle;
 @property (nonatomic) UIKeyboardType keyboardType;
 @property (nonatomic) NSUInteger maximumLength;
+
+@property (nonatomic, strong) LanguageSettings *language;
 
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) UIFont *titleFont;
@@ -60,5 +63,25 @@ typedef enum : NSUInteger {
 @end
 
 @interface LanguageSettings : NSObject
+
+@property (nonatomic, strong) NSString *enter_old_passcode;
+@property (nonatomic, strong) NSString *enter_your_passcode;
+
+@property (nonatomic, strong) NSString *enter_new_passcode;
+@property (nonatomic, strong) NSString *enter_a_passcode;
+
+@property (nonatomic, strong) NSString *re_enter_passcode;
+
+@property (nonatomic, strong) NSString *invalid_passcode;
+@property (nonatomic, strong) NSString *failed_passcode_attempt;
+@property (nonatomic, strong) NSString *failed_passcode_attempts;
+
+@property (nonatomic, strong) NSString *enter_different_passcode;
+@property (nonatomic, strong) NSString *passcode_not_match;
+
+@property (nonatomic, strong) NSString *try_again_minute;
+@property (nonatomic, strong) NSString *try_again_minutes;
+
+- (id)initDefault;
 
 @end

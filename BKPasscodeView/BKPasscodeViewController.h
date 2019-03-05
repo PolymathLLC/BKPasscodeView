@@ -11,7 +11,6 @@
 #import "BKTouchIDSwitchView.h"
 #import "BKTouchIDManager.h"
 
-
 typedef enum : NSUInteger {
     BKPasscodeViewControllerNewPasscodeType,
     BKPasscodeViewControllerChangePasscodeType,
@@ -24,11 +23,11 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, weak) id<BKPasscodeViewControllerDelegate> delegate;
 
-@property (nonatomic) BKPasscodeViewControllerType              type;
-@property (nonatomic) BKPasscodeInputViewPasscodeStyle          passcodeStyle;
-@property (nonatomic) UIKeyboardType                            keyboardType;
-@property (nonatomic, strong, readonly) BKPasscodeInputView     *passcodeInputView;
-@property (nonatomic, strong) BKTouchIDManager                  *touchIDManager;
+@property (nonatomic) BKPasscodeViewControllerType type;
+@property (nonatomic) BKPasscodeInputViewPasscodeStyle passcodeStyle;
+@property (nonatomic) UIKeyboardType keyboardType;
+@property (nonatomic, strong, readonly) BKPasscodeInputView *passcodeInputView;
+@property (nonatomic, strong) BKTouchIDManager *touchIDManager;
 
 @property (nonatomic, strong) UIColor *backgroundColor;
 
