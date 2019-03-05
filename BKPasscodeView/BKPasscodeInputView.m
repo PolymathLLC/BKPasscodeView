@@ -23,10 +23,10 @@
     BOOL _isKeyboardTypeSet;
 }
 
-@property (nonatomic, strong) UILabel           *titleLabel;
-@property (nonatomic, strong) UILabel           *messageLabel;
-@property (nonatomic, strong) UILabel           *errorMessageLabel;
-@property (nonatomic, strong) UIControl         *passcodeField;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UILabel *errorMessageLabel;
+@property (nonatomic, strong) UIControl *passcodeField;
 
 @end
 
