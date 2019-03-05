@@ -175,7 +175,7 @@
     language.failed_passcode_attempts = @"Your passcode is wrong (%d)";
     
     viewController.passcodeInputView.language = language;
-    viewController.passcodeInputView.headerTitle = @"Passcode Setting";
+    viewController.passcodeInputView.headerTitle = @"Passcode Settings";
     viewController.passcodeInputView.titleColor = UIColor.whiteColor;
     viewController.passcodeInputView.messageColor = UIColor.whiteColor;
     viewController.passcodeInputView.errorMessageColor = UIColor.whiteColor;

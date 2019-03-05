@@ -411,7 +411,7 @@
     
     rect = _headerTitleLabel.frame;
     rect.origin.x = floorf((self.frame.size.width - CGRectGetWidth(rect)) * 0.5f);
-    rect.origin.y = CGRectGetMinY(self.passcodeField.frame) - 3*labelPasscodeSpace - CGRectGetHeight(_headerTitleLabel.frame);
+    rect.origin.y = CGRectGetMinY(self.passcodeField.frame) - 3.5*labelPasscodeSpace - CGRectGetHeight(_headerTitleLabel.frame);
     _headerTitleLabel.frame = rect;
     
     // layout title label

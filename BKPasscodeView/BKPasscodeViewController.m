@@ -327,6 +327,10 @@ typedef enum : NSUInteger {
     
     passcodeInputView.language = self.passcodeInputView.language;
     
+    passcodeInputView.headerTitle = self.passcodeInputView.headerTitle;
+    passcodeInputView.headerTitleFont = self.passcodeInputView.headerTitleFont;
+    passcodeInputView.headerTitleColor = self.passcodeInputView.headerTitleColor;
+    
     passcodeInputView.titleFont = self.passcodeInputView.titleFont;
     passcodeInputView.titleColor = self.passcodeInputView.titleColor;
     
