@@ -354,6 +354,7 @@ typedef enum : NSUInteger {
     
     passcodeInputView.errorMessageFont = self.passcodeInputView.errorMessageFont;
     passcodeInputView.errorMessageColor = self.passcodeInputView.errorMessageColor;
+    passcodeInputView.errorMessageBackgroundColor = self.passcodeInputView.errorMessageBackgroundColor;
     
     passcodeInputView.dotColor = self.passcodeInputView.dotColor;
 }

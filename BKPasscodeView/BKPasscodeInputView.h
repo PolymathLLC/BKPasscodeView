@@ -43,6 +43,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *errorMessage;
 @property (nonatomic, strong) UIFont *errorMessageFont;
 @property (nonatomic, strong) UIColor *errorMessageColor;
+@property (nonatomic, strong) UIColor *errorMessageBackgroundColor;
 
 @property (nonatomic, getter = isEnabled) BOOL enabled;
 @property (nonatomic, strong) NSString *passcode;

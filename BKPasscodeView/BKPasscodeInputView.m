@@ -380,6 +380,16 @@
     self.errorMessageLabel.textColor = color;
 }
 
+- (UIColor *)errorMessageBackgroundColor
+{
+    return self.errorMessageLabel.backgroundColor;
+}
+
+- (void)setErrorMessageBackgroundColor:(UIColor *)color
+{
+    self.errorMessageLabel.backgroundColor = color;
+}
+
 #pragma mark - UIView
 
 - (CGFloat)labelPasscodeSpace

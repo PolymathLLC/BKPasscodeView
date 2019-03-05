@@ -168,7 +168,7 @@
     viewController.delegate = self;
     viewController.type = type;
 
-    viewController.backgroundColor = UIColor.redColor;
+    viewController.backgroundColor = UIColor.whiteColor;
     
     LanguageSettings *language = [[LanguageSettings alloc] init];
     language.failed_passcode_attempt = @"Your passcode is wrong";
@@ -179,6 +179,7 @@
     viewController.passcodeInputView.titleColor = UIColor.whiteColor;
     viewController.passcodeInputView.messageColor = UIColor.whiteColor;
     viewController.passcodeInputView.errorMessageColor = UIColor.whiteColor;
+    viewController.passcodeInputView.errorMessageBackgroundColor = [UIColor.purpleColor colorWithAlphaComponent:0.2];
     viewController.passcodeInputView.dotColor = UIColor.whiteColor;
     
     // Passcode style (numeric or ASCII)
