@@ -23,6 +23,7 @@
     BOOL _isKeyboardTypeSet;
 }
 
+@property (nonatomic, strong) UILabel *headerTitleLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
 @property (nonatomic, strong) UILabel *errorMessageLabel;
@@ -62,6 +63,11 @@
     _passcodeStyle = BKPasscodeInputViewNumericPasscodeStyle;
     _keyboardType = UIKeyboardTypeNumberPad;
     _maximumLength = 0;
+    _language = [[LanguageSettings alloc] init];
+    
+    _headerTitleLabel = [[UILabel alloc] init];
+    [[self class] configureHeaderTitleLabel:_headerTitleLabel];
+    [self addSubview:_headerTitleLabel];
     
     _titleLabel = [[UILabel alloc] init];
     [[self class] configureTitleLabel:_titleLabel];
@@ -75,8 +81,15 @@
     [[self class] configureErrorMessageLabel:_errorMessageLabel];
     _errorMessageLabel.hidden = YES;
     [self addSubview:_errorMessageLabel];
-    
-    _language = [[LanguageSettings alloc] init];
+}
+
++ (void)configureHeaderTitleLabel:(UILabel *)aLabel
+{
+    aLabel.backgroundColor = [UIColor clearColor];
+    aLabel.numberOfLines = 1;
+    aLabel.textAlignment = NSTextAlignmentCenter;
+    aLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    aLabel.font = [UIFont boldSystemFontOfSize:21.0f];
 }
 
 + (void)configureTitleLabel:(UILabel *)aLabel
@@ -210,6 +223,17 @@
     [(id<UITextInputTraits>)_passcodeField setKeyboardType:keyboardType];
 }
 
+- (void)setHeaderTitle:(NSString *)headerTitle
+{
+    self.headerTitleLabel.text = headerTitle;
+    [self setNeedsLayout];
+}
+
+- (NSString *)headerTitle
+{
+    return self.headerTitleLabel.text;
+}
+
 - (void)setTitle:(NSString *)title
 {
     self.titleLabel.text = title;
@@ -276,6 +300,26 @@
 }
 
 #pragma mark - Customizations
+
+- (UIFont *)headerTitleFont
+{
+    return self.headerTitleLabel.font;
+}
+
+- (void)setHeaderTitleFont:(UIFont *)font
+{
+    self.headerTitleLabel.font = font;
+}
+
+- (UIColor *)headerTitleColor
+{
+    return self.headerTitleLabel.textColor;
+}
+
+- (void)setHeaderTitleColor:(UIColor *)color
+{
+    self.headerTitleLabel.textColor = color;
+}
 
 - (UIFont *)titleFont
 {
@@ -359,15 +403,24 @@
     
     CGFloat maxTextWidth = self.frame.size.width - (kTextLeftRightSpace * 2.0f);
     CGFloat labelPasscodeSpace = [self labelPasscodeSpace];
+    CGRect rect = CGRectZero;
+    
+    // layout header title label
+    _headerTitleLabel.frame = CGRectMake(kTextLeftRightSpace, 0, maxTextWidth, self.frame.size.height);
+    [_headerTitleLabel sizeToFit];
+    
+    rect = _headerTitleLabel.frame;
+    rect.origin.x = floorf((self.frame.size.width - CGRectGetWidth(rect)) * 0.5f);
+    rect.origin.y = CGRectGetMinY(self.passcodeField.frame) - 3*labelPasscodeSpace - CGRectGetHeight(_headerTitleLabel.frame);
+    _headerTitleLabel.frame = rect;
     
     // layout title label
     _titleLabel.frame = CGRectMake(kTextLeftRightSpace, 0, maxTextWidth, self.frame.size.height);
     [_titleLabel sizeToFit];
     
-    CGRect rect = _titleLabel.frame;
+    rect = _titleLabel.frame;
     rect.origin.x = floorf((self.frame.size.width - CGRectGetWidth(rect)) * 0.5f);
     rect.origin.y = CGRectGetMinY(self.passcodeField.frame) - labelPasscodeSpace - CGRectGetHeight(_titleLabel.frame);
-
     _titleLabel.frame = rect;
     
     // layout message label
@@ -391,7 +444,6 @@
         rect.size.width += (kErrorMessageLeftRightPadding * 2.0f);
         rect.size.height += (kErrorMessageTopBottomPadding * 2.0f);
         rect.origin.x = floorf((self.frame.size.width - rect.size.width) * 0.5f);
-        
         _errorMessageLabel.frame = rect;
     }
 }
