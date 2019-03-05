@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, BKShiftingDirection) {
 
 @interface BKShiftingView : UIView
 
-@property (nonatomic, strong) UIView        *currentView;
+@property (nonatomic, strong) UIView *currentView;
 
 - (void)showView:(UIView *)view withDirection:(BKShiftingDirection)direction;
 

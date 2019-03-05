@@ -16,7 +16,7 @@ static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
     dispatch_queue_t _queue;
 }
 
-@property (nonatomic, strong) NSString                  *keychainServiceName;
+@property (nonatomic, strong) NSString *keychainServiceName;
 
 @end
 
@@ -26,11 +26,8 @@ static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
 {
     self = [super init];
     if (self) {
-        
         _queue = dispatch_queue_create("BKTouchIDManagerQueue", DISPATCH_QUEUE_SERIAL);
-        
         NSParameterAssert(serviceName);
-        
         self.keychainServiceName = serviceName;
     }
     return self;

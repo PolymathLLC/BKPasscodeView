@@ -18,16 +18,15 @@
 @property (nonatomic, weak) id<BKPasscodeFieldImageSource> imageSource;
 
 // passcode
-@property (nonatomic, strong) NSString      *passcode;
+@property (nonatomic, strong) NSString *passcode;
 
 // configurations
-@property (nonatomic) NSUInteger            maximumLength;
-@property (nonatomic) CGSize                dotSize;
-@property (nonatomic) CGFloat           	lineHeight;
-@property (nonatomic) CGFloat           	dotSpacing;
-@property (nonatomic, strong) UIColor       *dotColor;
-
-@property (nonatomic) UIKeyboardType        keyboardType;
+@property (nonatomic) NSUInteger maximumLength;
+@property (nonatomic) CGSize dotSize;
+@property (nonatomic) CGFloat lineHeight;
+@property (nonatomic) CGFloat dotSpacing;
+@property (nonatomic, strong) UIColor *dotColor;
+@property (nonatomic) UIKeyboardType keyboardType;
 
 @end
 

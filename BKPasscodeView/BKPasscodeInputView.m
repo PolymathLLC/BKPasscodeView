@@ -76,7 +76,7 @@
     _errorMessageLabel.hidden = YES;
     [self addSubview:_errorMessageLabel];
     
-    _language = [[LanguageSettings alloc] initDefault];
+    _language = [[LanguageSettings alloc] init];
 }
 
 + (void)configureTitleLabel:(UILabel *)aLabel
@@ -496,7 +496,7 @@
 
 @implementation LanguageSettings
 
-- (id)initDefault
+- (id)init
 {
     self = [super init];
     if (self) {

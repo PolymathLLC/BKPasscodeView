@@ -15,14 +15,13 @@
 
 @property (nonatomic, weak) id<BKTouchIDSwitchViewDelegate> delegate;
 
-@property (nonatomic, strong) UIView        *switchBackgroundView;
-@property (nonatomic, strong) UILabel       *messageLabel;
-@property (nonatomic, strong) UILabel       *titleLabel;
-@property (nonatomic, strong) UISwitch      *touchIDSwitch;
-@property (nonatomic, strong) UIButton      *doneButton;
+@property (nonatomic, strong) UIView *switchBackgroundView;
+@property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UISwitch *touchIDSwitch;
+@property (nonatomic, strong) UIButton *doneButton;
 
 @end
-
 
 @protocol BKTouchIDSwitchViewDelegate <NSObject>
 

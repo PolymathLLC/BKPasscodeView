@@ -13,9 +13,9 @@ static BKPasscodeLockScreenManager *_sharedManager;
 
 @interface BKPasscodeLockScreenManager ()
 
-@property (strong, nonatomic) UIWindow  *mainWindow;
-@property (strong, nonatomic) UIWindow  *lockScreenWindow;
-@property (strong, nonatomic) UIView    *blindView;
+@property (strong, nonatomic) UIWindow *mainWindow;
+@property (strong, nonatomic) UIWindow *lockScreenWindow;
+@property (strong, nonatomic) UIView *blindView;
 
 @end
 

@@ -10,13 +10,11 @@
 
 @protocol BKPasscodeDummyViewControllerDelegate;
 
-
 @interface BKPasscodeDummyViewController : UIViewController
 
 @property (nonatomic, weak) id<BKPasscodeDummyViewControllerDelegate> delegate;
 
 @end
-
 
 @protocol BKPasscodeDummyViewControllerDelegate <NSObject>
 

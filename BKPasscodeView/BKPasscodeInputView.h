@@ -82,6 +82,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *try_again_minute;
 @property (nonatomic, strong) NSString *try_again_minutes;
 
-- (id)initDefault;
+- (id)init;
 
 @end

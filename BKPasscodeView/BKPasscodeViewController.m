@@ -58,9 +58,7 @@ typedef enum : NSUInteger {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveApplicationWillEnterForegroundNotification:)
                                                      name:UIApplicationWillEnterForegroundNotification
                                                    object:nil];
-        
-        self.keyboardHeight = kBKPasscodeDefaultKeyboardHeight;      // sometimes keyboard notification is not posted at all. so setting default value.
-        
+        self.keyboardHeight = kBKPasscodeDefaultKeyboardHeight;
         self.backgroundColor = UIColor.whiteColor;
     }
     return self;
@@ -112,19 +110,16 @@ typedef enum : NSUInteger {
 
 - (void)customizePasscodeInputView:(BKPasscodeInputView *)aPasscodeInputView
 {
+    
 }
-
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     [self.view setBackgroundColor:self.backgroundColor];
-   
     [self updatePasscodeInputViewTitle:self.passcodeInputView];
-    
     [self customizePasscodeInputView:self.passcodeInputView];
-    
     [self.view addSubview:self.shiftingView];
     
     [self lockIfNeeded];
@@ -144,7 +139,6 @@ typedef enum : NSUInteger {
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
     [self.view endEditing:YES];
 }
 
@@ -206,16 +200,13 @@ typedef enum : NSUInteger {
     [self showFailedAttemptsCount:numberOfFailedAttempts inputView:inputView];
     
     if (self.lockStateUpdateTimer == nil) {
-        
         NSTimeInterval delay = timeInterval + kBKPasscodeOneMinuteInSeconds - (kBKPasscodeOneMinuteInSeconds * (NSTimeInterval)minutes);
-        
         self.lockStateUpdateTimer = [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:delay]
                                                              interval:60.f
                                                                target:self
                                                              selector:@selector(lockStateUpdateTimerFired:)
                                                              userInfo:nil
                                                               repeats:YES];
-        
         [[NSRunLoop currentRunLoop] addTimer:self.lockStateUpdateTimer forMode:NSDefaultRunLoopMode];
     }
 }
@@ -261,7 +252,6 @@ typedef enum : NSUInteger {
         self.lockStateUpdateTimer = nil;
         
         [self updatePasscodeInputViewTitle:inputView];
-        
         inputView.enabled = YES;
         
     } else {
@@ -295,9 +285,7 @@ typedef enum : NSUInteger {
         self.promptingTouchID = NO;
         
         if (passcode) {
-            
             self.passcodeInputView.passcode = passcode;
-            
             [self passcodeInputViewDidFinish:self.passcodeInputView];
         }
             
@@ -315,7 +303,8 @@ typedef enum : NSUInteger {
         case BKPasscodeViewControllerStateCheckPassword:
             if (self.type == BKPasscodeViewControllerChangePasscodeType) {
                 passcodeInputView.title = self.passcodeInputView.language.enter_old_passcode;
-            } else {
+            }
+            else {
                 passcodeInputView.title = self.passcodeInputView.language.enter_your_passcode;
             }
             break;
@@ -323,7 +312,8 @@ typedef enum : NSUInteger {
         case BKPasscodeViewControllerStateInputPassword:
             if (self.type == BKPasscodeViewControllerChangePasscodeType) {
                 passcodeInputView.title = self.passcodeInputView.language.enter_new_passcode;
-            } else {
+            }
+            else {
                 passcodeInputView.title = self.passcodeInputView.language.enter_a_passcode;
             }
             break;
@@ -336,12 +326,17 @@ typedef enum : NSUInteger {
             break;
     }
     
+    passcodeInputView.language = self.passcodeInputView.language;
+    
     passcodeInputView.titleFont = self.passcodeInputView.titleFont;
     passcodeInputView.titleColor = self.passcodeInputView.titleColor;
+    
     passcodeInputView.messageFont = self.passcodeInputView.messageFont;
     passcodeInputView.messageColor = self.passcodeInputView.messageColor;
+    
     passcodeInputView.errorMessageFont = self.passcodeInputView.errorMessageFont;
     passcodeInputView.errorMessageColor = self.passcodeInputView.errorMessageColor;
+    
     passcodeInputView.dotColor = self.passcodeInputView.dotColor;
 }
 
@@ -349,10 +344,12 @@ typedef enum : NSUInteger {
 {
     if (failCount == 0) {
         aInputView.errorMessage = self.passcodeInputView.language.invalid_passcode;
-    } else if (failCount == 1) {
+    }
+    else if (failCount == 1) {
         aInputView.errorMessage = self.passcodeInputView.language.failed_passcode_attempt;
-    } else {
-        aInputView.errorMessage = [NSString stringWithFormat:self.passcodeInputView.language.failed_passcode_attempts, failCount];
+    }
+    else {
+        aInputView.errorMessage = [NSString stringWithFormat:self.passcodeInputView.language.failed_passcode_attempt, failCount];
     }
 }
 
