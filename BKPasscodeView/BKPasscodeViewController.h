@@ -31,6 +31,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) UIColor *backgroundColor;
 
+- (void)setCancelButtonTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
+
 /**
  * Customize passcode input view
  * You may override to customize passcode input view appearance.
@@ -93,5 +95,7 @@ typedef enum : NSUInteger {
  * If you return nil, passcode view will unlock otherwise it will lock until the date.
  */
 - (NSDate *)passcodeViewControllerLockUntilDate:(BKPasscodeViewController *)aViewController;
+
+- (void)passcodeViewControllerDidCancel:(BKPasscodeViewController *)aViewController;
 
 @end

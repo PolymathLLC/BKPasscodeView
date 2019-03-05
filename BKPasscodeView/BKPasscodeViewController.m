@@ -23,16 +23,17 @@ typedef enum : NSUInteger {
 
 @interface BKPasscodeViewController ()
 
-@property (nonatomic, strong) BKShiftingView *shiftingView;
-
-@property (nonatomic) BKPasscodeViewControllerState currentState;
+@property (nonatomic, assign) BKPasscodeViewControllerState currentState;
 @property (nonatomic, strong) NSString *oldPasscode;
 @property (nonatomic, strong) NSString *theNewPasscode;
 @property (nonatomic, strong) NSTimer *lockStateUpdateTimer;
-@property (nonatomic) CGFloat keyboardHeight;
-@property (nonatomic, strong) AFViewShaker *viewShaker;
 
-@property (nonatomic) BOOL promptingTouchID;
+@property (nonatomic, strong) BKShiftingView *shiftingView;
+@property (nonatomic, strong) AFViewShaker *viewShaker;
+@property (nonatomic, strong) UIButton *cancelButton;
+
+@property (nonatomic, assign) CGFloat keyboardHeight;
+@property (nonatomic, assign) BOOL promptingTouchID;
 
 @end
 
@@ -51,6 +52,11 @@ typedef enum : NSUInteger {
         self.shiftingView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.shiftingView.currentView = [self instantiatePasscodeInputView];
         
+        // cancel button
+        self.cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        self.cancelButton.bounds = CGRectMake(0.0, 0.0, 50.0, 44.0);
+        [self.cancelButton addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpInside];
+        
         // keyboard notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveKeyboardWillShowHideNotification:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveKeyboardWillShowHideNotification:) name:UIKeyboardWillHideNotification object:nil];
@@ -61,6 +67,13 @@ typedef enum : NSUInteger {
         self.backgroundColor = UIColor.whiteColor;
     }
     return self;
+}
+
+- (void)setCancelButtonTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
+{
+    [self.cancelButton setTitle:title forState:UIControlStateNormal];
+    self.cancelButton.titleLabel.font = font;
+    self.cancelButton.tintColor = color;
 }
 
 - (void)dealloc
@@ -119,7 +132,9 @@ typedef enum : NSUInteger {
     [self.view setBackgroundColor:self.backgroundColor];
     [self updatePasscodeInputViewTitle:self.passcodeInputView];
     [self customizePasscodeInputView:self.passcodeInputView];
+    
     [self.view addSubview:self.shiftingView];
+    [self.view addSubview:self.cancelButton];
     
     [self lockIfNeeded];
 }
@@ -537,16 +552,27 @@ typedef enum : NSUInteger {
     if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
         UIInterfaceOrientation statusBarOrientation = [[UIApplication sharedApplication] statusBarOrientation];
         self.keyboardHeight = UIInterfaceOrientationIsPortrait(statusBarOrientation) ? CGRectGetHeight(keyboardRect) : CGRectGetWidth(keyboardRect);
-    } else {
+    }
+    else {
         self.keyboardHeight = CGRectGetHeight(keyboardRect);
     }
     
+    self.cancelButton.frame = (CGRect){CGPointMake(0.0, self.view.bounds.size.height - self.keyboardHeight - self.cancelButton.bounds.size.height), self.cancelButton.bounds.size};
     [self.view setNeedsLayout];
 }
 
 - (void)didReceiveApplicationWillEnterForegroundNotification:(NSNotification *)notification
 {
     [self startTouchIDAuthenticationIfPossible];
+}
+
+#pragma mark - Action
+
+- (void)touchCancel:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(passcodeViewControllerDidCancel:)]) {
+        [self.delegate passcodeViewControllerDidCancel:self];
+    }
 }
 
 @end

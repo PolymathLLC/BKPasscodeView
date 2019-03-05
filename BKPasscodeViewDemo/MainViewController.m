@@ -183,6 +183,7 @@
     
     // Passcode style (numeric or ASCII)
     viewController.passcodeStyle = BKPasscodeInputViewNumericPasscodeStyle;
+    [viewController setCancelButtonTitle:@"Cancel" font:[UIFont systemFontOfSize:20.0] color:UIColor.redColor];
     
 //    viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(passcodeViewCloseButtonPressed:)];
 //
@@ -216,6 +217,11 @@
         
         [self presentViewController:viewController animated:YES completion:nil];
     }
+}
+
+- (void)passcodeViewControllerDidCancel:(BKPasscodeViewController *)aViewController
+{
+    
 }
 
 - (void)passcodeViewCloseButtonPressed:(id)sender

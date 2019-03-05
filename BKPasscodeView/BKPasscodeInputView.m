@@ -131,7 +131,7 @@
 
         if (_passcodeField) {
             _passcodeField = nil;
-            [self passcodeField];       // load passcode field immediately if already exists before.
+            [self passcodeField];
         }
     }
 }
@@ -139,7 +139,6 @@
 - (UIControl *)passcodeField
 {
     if (nil == _passcodeField) {
-        
         switch (_passcodeStyle) {
             case BKPasscodeInputViewNumericPasscodeStyle:
             {
