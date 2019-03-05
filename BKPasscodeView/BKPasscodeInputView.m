@@ -285,26 +285,6 @@
     self.titleLabel.font = font;
 }
 
-- (UIFont *)messageFont
-{
-    return self.messageLabel.font;
-}
-
-- (void)setMessageFont:(UIFont *)font
-{
-    self.messageLabel.font = font;
-}
-
-- (UIFont *)errorMessageFont
-{
-    return self.errorMessageLabel.font;
-}
-
-- (void)setErrorMessageFont:(UIFont *)font
-{
-    self.errorMessageLabel.font = font;
-}
-
 - (UIColor *)titleColor
 {
     return self.titleLabel.textColor;
@@ -315,6 +295,16 @@
     self.titleLabel.textColor = color;
 }
 
+- (UIFont *)messageFont
+{
+    return self.messageLabel.font;
+}
+
+- (void)setMessageFont:(UIFont *)font
+{
+    self.messageLabel.font = font;
+}
+
 - (UIColor *)messageColor
 {
     return self.messageLabel.textColor;
@@ -323,6 +313,16 @@
 - (void)setMessageColor:(UIColor *)color
 {
     self.messageLabel.textColor = color;
+}
+
+- (UIFont *)errorMessageFont
+{
+    return self.errorMessageLabel.font;
+}
+
+- (void)setErrorMessageFont:(UIFont *)font
+{
+    self.errorMessageLabel.font = font;
 }
 
 - (UIColor *)errorMessageColor
@@ -489,5 +489,10 @@
     
     return view;
 }
+
+@end
+
+@implementation LanguageSettings
+
 
 @end
