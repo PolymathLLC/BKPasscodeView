@@ -23,16 +23,19 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, weak) id<BKPasscodeViewControllerDelegate> delegate;
 
-@property (nonatomic) BKPasscodeViewControllerType type;
-@property (nonatomic) BKPasscodeInputViewPasscodeStyle passcodeStyle;
-@property (nonatomic) UIKeyboardType keyboardType;
+@property (nonatomic, assign) BKPasscodeViewControllerType type;
+@property (nonatomic, assign) BKPasscodeInputViewPasscodeStyle passcodeStyle;
+
+@property (nonatomic, assign) UIKeyboardType keyboardType;
 @property (nonatomic, strong, readonly) BKPasscodeInputView *passcodeInputView;
 @property (nonatomic, strong) BKTouchIDManager *touchIDManager;
+@property (nonatomic, strong) NSString *existedPasscode;
 
 @property (nonatomic, strong) UIColor *backgroundColor;
 
 - (void)setCancelButtonTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
 - (void)setTitleLabelTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
+
 /**
  * Customize passcode input view
  * You may override to customize passcode input view appearance.

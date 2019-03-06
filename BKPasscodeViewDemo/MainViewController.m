@@ -169,6 +169,7 @@
     viewController.type = type;
 
     viewController.backgroundColor = UIColor.redColor;
+    viewController.existedPasscode = @"1234";
     
     LanguageSettings *language = [[LanguageSettings alloc] init];
     language.failed_passcode_attempt = @"Your passcode is wrong";

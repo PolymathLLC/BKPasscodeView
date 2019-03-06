@@ -148,6 +148,7 @@ typedef enum : NSUInteger {
     [super viewDidLoad];
     
     [self.view setBackgroundColor:self.backgroundColor];
+    
     [self updatePasscodeInputViewTitle:self.passcodeInputView];
     [self customizePasscodeInputView:self.passcodeInputView];
     
@@ -462,10 +463,12 @@ typedef enum : NSUInteger {
                         [self.shiftingView showView:newPasscodeInputView withDirection:BKShiftingDirectionForward];
                         
                         [self.passcodeInputView becomeFirstResponder];
-                    } else {
+                    }
+                    else {
                         [self.delegate passcodeViewController:self didFinishWithPasscode:passcode];
                     }
-                } else {
+                }
+                else {
                     if ([self.delegate respondsToSelector:@selector(passcodeViewControllerDidFailAttempt:)]) {
                         [self.delegate passcodeViewControllerDidFailAttempt:self];
                     }
@@ -502,17 +505,27 @@ typedef enum : NSUInteger {
             if (self.type == BKPasscodeViewControllerChangePasscodeType && [self.oldPasscode isEqualToString:passcode]) {
                 aInputView.passcode = nil;
                 aInputView.message = self.passcodeInputView.language.enter_different_passcode;
-            } else {
-                self.theNewPasscode = passcode;
-                self.currentState = BKPasscodeViewControllerStateReinputPassword;
-                
-                BKPasscodeInputView *newPasscodeInputView = [self.passcodeInputView copy];
-                
-                [self customizePasscodeInputView:newPasscodeInputView];
-                [self updatePasscodeInputViewTitle:newPasscodeInputView];
-                [self.shiftingView showView:newPasscodeInputView withDirection:BKShiftingDirectionForward];
-                
-                [self.passcodeInputView becomeFirstResponder];
+            }
+            else {
+                if (self.type == BKPasscodeViewControllerNewPasscodeType && [self.existedPasscode isEqualToString:passcode]) {
+                    self.viewShaker = [[AFViewShaker alloc] initWithView:aInputView.passcodeField];
+                    [self.viewShaker shakeWithDuration:0.5f completion:nil];
+                    
+                    aInputView.passcode = nil;
+                    aInputView.message = self.passcodeInputView.language.enter_existed_passcode;
+                }
+                else {
+                    self.theNewPasscode = passcode;
+                    self.currentState = BKPasscodeViewControllerStateReinputPassword;
+                    
+                    BKPasscodeInputView *newPasscodeInputView = [self.passcodeInputView copy];
+                    
+                    [self customizePasscodeInputView:newPasscodeInputView];
+                    [self updatePasscodeInputViewTitle:newPasscodeInputView];
+                    [self.shiftingView showView:newPasscodeInputView withDirection:BKShiftingDirectionForward];
+                    
+                    [self.passcodeInputView becomeFirstResponder];
+                }
             }
             
             break;
@@ -522,10 +535,12 @@ typedef enum : NSUInteger {
             if ([passcode isEqualToString:self.theNewPasscode]) {
                 if (self.touchIDManager && [BKTouchIDManager canUseTouchID]) {
                     [self showTouchIDSwitchView];
-                } else {
+                }
+                else {
                     [self.delegate passcodeViewController:self didFinishWithPasscode:passcode];
                 }
-            } else {
+            }
+            else {
                 self.currentState = BKPasscodeViewControllerStateInputPassword;
                 
                 BKPasscodeInputView *newPasscodeInputView = [self.passcodeInputView copy];
@@ -554,7 +569,8 @@ typedef enum : NSUInteger {
         [self.touchIDManager savePasscode:self.theNewPasscode completionBlock:^(BOOL success) {
             if (success) {
                 [self.delegate passcodeViewController:self didFinishWithPasscode:self.theNewPasscode];
-            } else {
+            }
+            else {
                 if ([self.delegate respondsToSelector:@selector(passcodeViewControllerDidFailTouchIDKeychainOperation:)]) {
                     [self.delegate passcodeViewControllerDidFailTouchIDKeychainOperation:self];
                 }
@@ -565,7 +581,8 @@ typedef enum : NSUInteger {
         [self.touchIDManager deletePasscodeWithCompletionBlock:^(BOOL success) {
             if (success) {
                 [self.delegate passcodeViewController:self didFinishWithPasscode:self.theNewPasscode];
-            } else {
+            }
+            else {
                 if ([self.delegate respondsToSelector:@selector(passcodeViewControllerDidFailTouchIDKeychainOperation:)]) {
                     [self.delegate passcodeViewControllerDidFailTouchIDKeychainOperation:self];
                 }

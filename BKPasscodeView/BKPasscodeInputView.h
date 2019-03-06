@@ -79,6 +79,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *failed_passcode_attempts;
 
 @property (nonatomic, strong) NSString *enter_different_passcode;
+@property (nonatomic, strong) NSString *enter_existed_passcode;
 @property (nonatomic, strong) NSString *passcode_not_match;
 
 @property (nonatomic, strong) NSString *try_again_minute;
