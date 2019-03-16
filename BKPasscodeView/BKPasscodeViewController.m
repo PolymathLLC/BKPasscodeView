@@ -61,7 +61,6 @@ typedef enum : NSUInteger {
         // cancel button
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
         self.cancelButton.bounds = CGRectMake(0.0, 0.0, 60.0, 44.0);
-        self.cancelButton.hidden = YES;
         [self.cancelButton addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpInside];
         
         // keyboard notifications
@@ -506,13 +505,20 @@ typedef enum : NSUInteger {
                 aInputView.passcode = nil;
                 aInputView.message = self.passcodeInputView.language.enter_different_passcode;
             }
-            else {
-                if (self.type == BKPasscodeViewControllerNewPasscodeType && [self.existedPasscode isEqualToString:passcode]) {
+            else if (self.type == BKPasscodeViewControllerNewPasscodeType || self.type == BKPasscodeViewControllerChangePasscodeType) {
+                if ([self.delegate respondsToSelector:@selector(passcodeViewControllerDidEnterExistedPasscode:passcode:)] && [self.delegate passcodeViewControllerDidEnterExistedPasscode:self passcode:passcode])
+                {
                     self.viewShaker = [[AFViewShaker alloc] initWithView:aInputView.passcodeField];
                     [self.viewShaker shakeWithDuration:0.5f completion:nil];
                     
                     aInputView.passcode = nil;
-                    aInputView.message = self.passcodeInputView.language.enter_existed_passcode;
+                    
+                    if ([self.delegate respondsToSelector:@selector(passcodeViewControllerExistedPasscodeWarning)]) {
+                        aInputView.message = [self.delegate passcodeViewControllerExistedPasscodeWarning];
+                    }
+                    else {
+                        aInputView.message = self.passcodeInputView.language.enter_existed_passcode;
+                    }
                 }
                 else {
                     self.theNewPasscode = passcode;
@@ -611,7 +617,6 @@ typedef enum : NSUInteger {
 - (void)didReceiveKeyboardDidShowNotification:(NSNotification *)notification
 {
     self.cancelButton.frame = (CGRect){CGPointMake(0.0, self.view.bounds.size.height - self.keyboardHeight - self.cancelButton.bounds.size.height), self.cancelButton.bounds.size};
-    self.cancelButton.hidden = NO;
 }
 
 - (void)didReceiveApplicationWillEnterForegroundNotification:(NSNotification *)notification

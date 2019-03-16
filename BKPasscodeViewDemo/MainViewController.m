@@ -169,7 +169,6 @@
     viewController.type = type;
 
     viewController.backgroundColor = UIColor.redColor;
-    viewController.existedPasscode = @"1234";
     
     LanguageSettings *language = [[LanguageSettings alloc] init];
     language.failed_passcode_attempt = @"Your passcode is wrong";
@@ -295,4 +294,14 @@
     [aViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+    
+- (BOOL)passcodeViewControllerDidEnterExistedPasscode:(BKPasscodeViewController *)aViewController passcode:(NSString *)passcode
+    {
+        return [@"1234" isEqualToString:passcode];
+    }
+    
+- (NSString *)passcodeViewControllerExistedPasscodeWarning {
+    return @"Hehehehe";
+}
+    
 @end
