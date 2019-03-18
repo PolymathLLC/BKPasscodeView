@@ -61,13 +61,11 @@ typedef enum : NSUInteger {
         // cancel button
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
         self.cancelButton.bounds = CGRectMake(0.0, 0.0, 60.0, 44.0);
-        self.cancelButton.hidden = YES;
         [self.cancelButton addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpInside];
         
         // cancel button
         self.skipButton = [UIButton buttonWithType:UIButtonTypeSystem];
         self.skipButton.bounds = CGRectMake(0.0, 0.0, 60.0, 44.0);
-        self.skipButton.hidden = YES;
         [self.skipButton addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpInside];
         
         // keyboard notifications
@@ -105,6 +103,12 @@ typedef enum : NSUInteger {
     
     [self.titleLabel sizeToFit];
     [self configTitleLabelFrame];
+}
+    
+- (void)setCanSkip:(BOOL)canSkip
+{
+    _canSkip = canSkip;
+    self.skipButton.hidden = !canSkip;
 }
 
 - (void)dealloc
@@ -208,6 +212,7 @@ typedef enum : NSUInteger {
     self.shiftingView.frame = frame;
 
     [self configTitleLabelFrame];
+    [self configButtonFrame];
 }
 
 - (void)configTitleLabelFrame
@@ -221,6 +226,12 @@ typedef enum : NSUInteger {
     frame.origin.x = (self.view.bounds.size.width - frame.size.width)/2.0;
     frame.origin.y = topBarOffset + [self.passcodeInputView labelPasscodeSpace]*1.5;
     self.titleLabel.frame = frame;
+}
+    
+- (void)configButtonFrame
+{
+    self.cancelButton.frame = (CGRect){CGPointMake(0.0, self.view.bounds.size.height - self.keyboardHeight - self.cancelButton.bounds.size.height), self.cancelButton.bounds.size};
+    self.skipButton.frame = (CGRect){CGPointMake(self.view.bounds.size.width - self.skipButton.bounds.size.width, self.view.bounds.size.height - self.keyboardHeight - self.skipButton.bounds.size.height), self.skipButton.bounds.size};
 }
 
 #pragma mark - Public methods
@@ -617,12 +628,6 @@ typedef enum : NSUInteger {
 
 - (void)didReceiveKeyboardWillShowHideNotification:(NSNotification *)notification
 {
-    self.cancelButton.hidden = NO;
-    self.skipButton.hidden = !self.canSkip;
-    
-    self.cancelButton.frame = (CGRect){CGPointMake(0.0, self.view.bounds.size.height - self.cancelButton.bounds.size.height), self.cancelButton.bounds.size};
-    self.skipButton.frame = (CGRect){CGPointMake(self.view.bounds.size.width - self.skipButton.bounds.size.width, self.view.bounds.size.height - self.skipButton.bounds.size.height), self.skipButton.bounds.size};
-    
     CGRect keyboardRect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     
     if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
@@ -638,8 +643,7 @@ typedef enum : NSUInteger {
 
 - (void)didReceiveKeyboardDidShowNotification:(NSNotification *)notification
 {
-    self.cancelButton.frame = (CGRect){CGPointMake(0.0, self.view.bounds.size.height - self.keyboardHeight - self.cancelButton.bounds.size.height), self.cancelButton.bounds.size};
-    self.skipButton.frame = (CGRect){CGPointMake(self.view.bounds.size.width - self.skipButton.bounds.size.width, self.view.bounds.size.height - self.keyboardHeight - self.skipButton.bounds.size.height), self.skipButton.bounds.size};
+    [self configButtonFrame];
 }
 
 - (void)didReceiveApplicationWillEnterForegroundNotification:(NSNotification *)notification
