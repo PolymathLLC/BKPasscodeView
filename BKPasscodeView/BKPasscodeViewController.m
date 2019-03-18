@@ -79,9 +79,6 @@ typedef enum : NSUInteger {
         
         self.keyboardHeight = kBKPasscodeDefaultKeyboardHeight;
         self.backgroundColor = UIColor.whiteColor;
-        
-        self.cancelButton.backgroundColor = UIColor.greenColor;
-        self.skipButton.backgroundColor = UIColor.greenColor;
     }
     return self;
 }
