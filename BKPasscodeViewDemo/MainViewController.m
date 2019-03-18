@@ -181,6 +181,7 @@
     viewController.passcodeInputView.errorMessageBackgroundColor = [UIColor.purpleColor colorWithAlphaComponent:0.2];
     viewController.passcodeInputView.dotColor = UIColor.whiteColor;
     
+    viewController.canSkip = TRUE;
     // Passcode style (numeric or ASCII)
     viewController.passcodeStyle = BKPasscodeInputViewNumericPasscodeStyle;
     [viewController setCancelButtonTitle:@"Cancel" font:[UIFont systemFontOfSize:20.0] color:UIColor.redColor];

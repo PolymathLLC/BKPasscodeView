@@ -25,11 +25,12 @@ typedef enum : NSUInteger {
     
 @property (nonatomic, assign) BKPasscodeViewControllerType type;
 @property (nonatomic, assign) BKPasscodeInputViewPasscodeStyle passcodeStyle;
-
+@property (nonatomic, assign) BOOL canSkip;
+    
 @property (nonatomic, assign) UIKeyboardType keyboardType;
 @property (nonatomic, strong, readonly) BKPasscodeInputView *passcodeInputView;
 @property (nonatomic, strong) BKTouchIDManager *touchIDManager;
-
+    
 @property (nonatomic, strong) UIColor *backgroundColor;
 
 - (void)setCancelButtonTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
@@ -99,7 +100,8 @@ typedef enum : NSUInteger {
 - (NSDate *)passcodeViewControllerLockUntilDate:(BKPasscodeViewController *)aViewController;
 
 - (void)passcodeViewControllerDidCancel:(BKPasscodeViewController *)aViewController;
-
+- (void)passcodeViewControllerDidSkip:(BKPasscodeViewController *)aViewController;
+    
 - (BOOL)passcodeViewControllerDidEnterExistedPasscode:(BKPasscodeViewController *)aViewController passcode:(NSString *)passcode;
 - (NSString *)passcodeViewControllerExistedPasscodeWarning;
     

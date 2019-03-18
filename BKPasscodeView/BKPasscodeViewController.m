@@ -32,7 +32,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) AFViewShaker *viewShaker;
 
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIButton *cancelButton;
+@property (nonatomic, strong) UIButton *cancelButton, *skipButton;
 
 @property (nonatomic, assign) CGFloat keyboardHeight;
 @property (nonatomic, assign) BOOL promptingTouchID;
@@ -61,7 +61,14 @@ typedef enum : NSUInteger {
         // cancel button
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
         self.cancelButton.bounds = CGRectMake(0.0, 0.0, 60.0, 44.0);
+        self.cancelButton.hidden = YES;
         [self.cancelButton addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpInside];
+        
+        // cancel button
+        self.skipButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        self.skipButton.bounds = CGRectMake(0.0, 0.0, 60.0, 44.0);
+        self.skipButton.hidden = YES;
+        [self.skipButton addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpInside];
         
         // keyboard notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveKeyboardWillShowHideNotification:) name:UIKeyboardWillShowNotification object:nil];
@@ -72,18 +79,28 @@ typedef enum : NSUInteger {
         
         self.keyboardHeight = kBKPasscodeDefaultKeyboardHeight;
         self.backgroundColor = UIColor.whiteColor;
+        
+        self.cancelButton.backgroundColor = UIColor.greenColor;
+        self.skipButton.backgroundColor = UIColor.greenColor;
     }
     return self;
 }
 
-- (void)setCancelButtonTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
+- (void)setCancelButtonTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color
 {
     [self.cancelButton setTitle:title forState:UIControlStateNormal];
     self.cancelButton.titleLabel.font = font;
     self.cancelButton.tintColor = color;
 }
+    
+- (void)setSkipButtonTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color
+{
+    [self.skipButton setTitle:title forState:UIControlStateNormal];
+    self.skipButton.titleLabel.font = font;
+    self.skipButton.tintColor = color;
+}
 
-- (void)setTitleLabelTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
+- (void)setTitleLabelTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color
 {
     self.titleLabel.text = title;
     self.titleLabel.font = font;
@@ -153,7 +170,9 @@ typedef enum : NSUInteger {
     
     [self.view addSubview:self.shiftingView];
     [self.view addSubview:self.titleLabel];
+    
     [self.view addSubview:self.cancelButton];
+    [self.view addSubview:self.skipButton];
     
     [self lockIfNeeded];
 }
@@ -601,6 +620,12 @@ typedef enum : NSUInteger {
 
 - (void)didReceiveKeyboardWillShowHideNotification:(NSNotification *)notification
 {
+    self.cancelButton.hidden = NO;
+    self.skipButton.hidden = !self.canSkip;
+    
+    self.cancelButton.frame = (CGRect){CGPointMake(0.0, self.view.bounds.size.height - self.cancelButton.bounds.size.height), self.cancelButton.bounds.size};
+    self.skipButton.frame = (CGRect){CGPointMake(self.view.bounds.size.width - self.skipButton.bounds.size.width, self.view.bounds.size.height - self.skipButton.bounds.size.height), self.skipButton.bounds.size};
+    
     CGRect keyboardRect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     
     if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
@@ -617,6 +642,7 @@ typedef enum : NSUInteger {
 - (void)didReceiveKeyboardDidShowNotification:(NSNotification *)notification
 {
     self.cancelButton.frame = (CGRect){CGPointMake(0.0, self.view.bounds.size.height - self.keyboardHeight - self.cancelButton.bounds.size.height), self.cancelButton.bounds.size};
+    self.skipButton.frame = (CGRect){CGPointMake(self.view.bounds.size.width - self.skipButton.bounds.size.width, self.view.bounds.size.height - self.keyboardHeight - self.skipButton.bounds.size.height), self.skipButton.bounds.size};
 }
 
 - (void)didReceiveApplicationWillEnterForegroundNotification:(NSNotification *)notification
@@ -632,5 +658,12 @@ typedef enum : NSUInteger {
         [self.delegate passcodeViewControllerDidCancel:self];
     }
 }
+    
+    - (void)touchSkip:(id)sender
+    {
+        if ([self.delegate respondsToSelector:@selector(passcodeViewControllerDidSkip:)]) {
+            [self.delegate passcodeViewControllerDidSkip:self];
+        }
+    }
 
 @end
