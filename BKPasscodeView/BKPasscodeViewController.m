@@ -67,6 +67,7 @@ typedef enum : NSUInteger {
         self.skipButton = [UIButton buttonWithType:UIButtonTypeSystem];
         self.skipButton.bounds = CGRectMake(0.0, 0.0, 60.0, 44.0);
         [self.skipButton addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpInside];
+        self.skipButton.hidden = YES;
         
         // keyboard notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveKeyboardWillShowHideNotification:) name:UIKeyboardWillShowNotification object:nil];
