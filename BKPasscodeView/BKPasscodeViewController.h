@@ -34,7 +34,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIColor *backgroundColor;
 
 - (void)setCancelButtonTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
-    - (void)setSkipButtonTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
 - (void)setTitleLabelTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
 
 /**
