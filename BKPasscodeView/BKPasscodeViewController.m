@@ -57,6 +57,7 @@ typedef enum : NSUInteger {
         // title label
         self.titleLabel = [[UILabel alloc] init];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
+        self.titleLabel.numberOfLines = 0;
         
         // cancel button
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -88,6 +89,14 @@ typedef enum : NSUInteger {
     self.titleLabel.text = title;
     self.titleLabel.font = font;
     self.titleLabel.textColor = color;
+    
+    [self.titleLabel sizeToFit];
+    [self configTitleLabelFrame];
+}
+
+- (void)setTitleLabelAttributedTitle:(NSAttributedString *)attributedTitle
+{
+    self.titleLabel.attributedText = attributedTitle;
     
     [self.titleLabel sizeToFit];
     [self configTitleLabelFrame];

@@ -34,7 +34,9 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIColor *backgroundColor;
 
 - (void)setCancelButtonTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
+
 - (void)setTitleLabelTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color;
+- (void)setTitleLabelAttributedTitle:(NSAttributedString *)attributedTitle;
 
 /**
  * Customize passcode input view

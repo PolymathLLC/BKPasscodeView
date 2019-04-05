@@ -180,6 +180,7 @@
     viewController.passcodeInputView.errorMessageColor = UIColor.whiteColor;
     viewController.passcodeInputView.errorMessageBackgroundColor = [UIColor.purpleColor colorWithAlphaComponent:0.2];
     viewController.passcodeInputView.dotColor = UIColor.whiteColor;
+    viewController.passcodeInputView.language.enter_your_passcode = nil;
     
     viewController.canSkip = TRUE;
     // Passcode style (numeric or ASCII)

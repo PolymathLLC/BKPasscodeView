@@ -248,6 +248,8 @@
 				DFB107AD1903ECF70038FB05 /* Sources */,
 				DFB107AE1903ECF70038FB05 /* Frameworks */,
 				DFB107AF1903ECF70038FB05 /* Resources */,
+				0F499045C79E353919EA71EC /* [CP] Embed Pods Frameworks */,
+				4DC231CB190F02BF8B962700 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -266,6 +268,8 @@
 				DFB107C81903ECF70038FB05 /* Sources */,
 				DFB107C91903ECF70038FB05 /* Frameworks */,
 				DFB107CA1903ECF70038FB05 /* Resources */,
+				2F0C86F60150D644F31EBBF1 /* [CP] Embed Pods Frameworks */,
+				F474F14A6DC77B32A1E0C65A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -336,6 +340,63 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0F499045C79E353919EA71EC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BKPasscodeViewDemo/Pods-BKPasscodeViewDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2F0C86F60150D644F31EBBF1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BKPasscodeViewDemoTests/Pods-BKPasscodeViewDemoTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4DC231CB190F02BF8B962700 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BKPasscodeViewDemo/Pods-BKPasscodeViewDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		7BB30F5AC4C72AEE69F76EB7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -370,6 +431,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F474F14A6DC77B32A1E0C65A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BKPasscodeViewDemoTests/Pods-BKPasscodeViewDemoTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
