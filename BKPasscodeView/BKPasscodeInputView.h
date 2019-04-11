@@ -22,9 +22,10 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, weak) id<BKPasscodeInputViewDelegate> delegate;
 
-@property (nonatomic) BKPasscodeInputViewPasscodeStyle passcodeStyle;
-@property (nonatomic) UIKeyboardType keyboardType;
-@property (nonatomic) NSUInteger maximumLength;
+@property (nonatomic, assign) BKPasscodeInputViewPasscodeStyle passcodeStyle;
+@property (nonatomic, assign) UIKeyboardType keyboardType;
+@property (nonatomic, assign) NSUInteger maximumLength;
+@property (nonatomic, assign) BOOL disableSecure;
 
 @property (nonatomic, strong) LanguageSettings *language;
 

@@ -133,7 +133,7 @@
 
 - (UIControl *)passcodeField
 {
-    if (nil == _passcodeField) {
+    if (_passcodeField == nil) {
         switch (_passcodeStyle) {
             case BKPasscodeInputViewNumericPasscodeStyle:
             {
@@ -150,9 +150,10 @@
                 passcodeField.keyboardType = _keyboardType;
                 passcodeField.maximumLength = _maximumLength;
                 passcodeField.dotColor = _dotColor;
+                passcodeField.disableSecure = _disableSecure;
                 [passcodeField addTarget:self action:@selector(passcodeControlEditingChanged:) forControlEvents:UIControlEventEditingChanged];
-                
                 [self setPasscodeField:passcodeField];
+                
                 break;
             }
                 
@@ -191,12 +192,13 @@
 - (void)setPasscodeField:(UIControl *)passcodeField
 {
     if (_passcodeField != passcodeField) {
-        
         [_passcodeField removeFromSuperview];
         _passcodeField = passcodeField;
+        
         if (_passcodeField) {
             [self addSubview:_passcodeField];
         }
+        
         [self setNeedsLayout];
     }
 }
@@ -205,8 +207,17 @@
 {
     _maximumLength = maximumLength;
     
-    if ([_passcodeField isKindOfClass:[BKPasscodeField class]]) {
-        [(BKPasscodeField *)_passcodeField setMaximumLength:maximumLength];
+    if ([self.passcodeField isKindOfClass:[BKPasscodeField class]]) {
+        [(BKPasscodeField *)self.passcodeField setMaximumLength:maximumLength];
+    }
+}
+
+- (void)setDisableSecure:(BOOL)disableSecure
+{
+    _disableSecure = disableSecure;
+    
+    if ([self.passcodeField isKindOfClass:[BKPasscodeField class]]) {
+        [(BKPasscodeField *)self.passcodeField setDisableSecure:disableSecure];
     }
 }
 
@@ -214,7 +225,7 @@
 {
     _isKeyboardTypeSet = YES;
     _keyboardType = keyboardType;
-    [(id<UITextInputTraits>)_passcodeField setKeyboardType:keyboardType];
+    [(id<UITextInputTraits>)self.passcodeField setKeyboardType:keyboardType];
 }
 
 - (void)setTitle:(NSString *)title
@@ -504,6 +515,8 @@
     view.passcodeStyle = self.passcodeStyle;
     view.keyboardType = self.keyboardType;
     view.maximumLength = self.maximumLength;
+    view.dotColor = self.dotColor;
+    view.disableSecure = self.disableSecure;
     
     return view;
 }

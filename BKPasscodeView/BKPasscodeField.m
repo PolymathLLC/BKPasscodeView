@@ -21,7 +21,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self _initialize];
+        [self initialize];
     }
     return self;
 }
@@ -30,7 +30,7 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self _initialize];
+        [self initialize];
     }
     return self;
 }
@@ -39,23 +39,22 @@
 {
     self = [super init];
     if (self) {
-        [self _initialize];
+        [self initialize];
     }
     return self;
 }
 
-- (void)_initialize
+- (void)initialize
 {
     _maximumLength = 4;
-    _dotSize = CGSizeMake(18.0f, 19.0f);
+    _dotSize = CGSizeMake(19.0f, 19.0f);
     _dotSpacing = 25.0f;
     _lineHeight = 3.0f;
     _dotColor = [UIColor blackColor];
     
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = UIColor.clearColor;
     
     _mutablePasscode = [[NSMutableString alloc] initWithCapacity:4];
-    
     [self addTarget:self action:@selector(didTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -79,10 +78,10 @@
             passcode = [passcode substringWithRange:NSMakeRange(0, self.maximumLength)];
         }
         self.mutablePasscode = [NSMutableString stringWithString:passcode];
-    } else {
+    }
+    else {
         self.mutablePasscode = [NSMutableString string];
     }
-    
     [self setNeedsDisplay];
 }
 
@@ -121,7 +120,6 @@
     [self.mutablePasscode appendString:text];
 
     [self setNeedsDisplay];
-    
     [self sendActionsForControlEvents:UIControlEventEditingChanged];
 }
 
@@ -144,7 +142,6 @@
     [self.mutablePasscode deleteCharactersInRange:NSMakeRange(self.mutablePasscode.length - 1, 1)];
     
     [self setNeedsDisplay];
-   
     [self sendActionsForControlEvents:UIControlEventEditingChanged];
 }
 
@@ -187,8 +184,7 @@
 
 - (CGSize)contentSize
 {
-    return CGSizeMake(self.maximumLength * _dotSize.width + (self.maximumLength - 1) * _dotSpacing,
-                      _dotSize.height);
+    return CGSizeMake(self.maximumLength * self.dotSize.width + (self.maximumLength - 1) * self.dotSpacing, self.dotSize.height*2.0);
 }
 
 - (void)setFrame:(CGRect)frame
@@ -200,51 +196,72 @@
 - (void)drawRect:(CGRect)rect
 {
     CGSize contentSize = [self contentSize];
+    CGPoint origin = CGPointMake(floorf((self.frame.size.width - contentSize.width)/2.0),
+                                 floorf((self.frame.size.height - self.dotSize.height)/2.0));
     
-    CGPoint origin = CGPointMake(floorf((self.frame.size.width - contentSize.width) * 0.5f),
-                                 floorf((self.frame.size.height - contentSize.height) * 0.5f));
-    
-    if ([self.imageSource respondsToSelector:@selector(passcodeField:dotImageAtIndex:filled:)]) {
-        
-        for (NSUInteger i = 0; i < self.maximumLength; i++) {
-            
-            UIImage *image = nil;
-            
-            if (i < self.mutablePasscode.length) {
-                // draw filled image
-                image = [self.imageSource passcodeField:self dotImageAtIndex:i filled:YES];
-            } else {
-                // draw blank image
-                image = [self.imageSource passcodeField:self dotImageAtIndex:i filled:NO];
-            }
-            
-            if (image) {
-                CGRect imageFrame = CGRectMake(origin.x, origin.y, self.dotSize.width, self.dotSize.height);
-                [image drawInRect:imageFrame];
-            }
-            
-            origin.x += (self.dotSize.width + self.dotSpacing);
-        }
-        
-    } else {
-        
+    if (self.disableSecure) {
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGContextSetFillColorWithColor(context, self.dotColor.CGColor);
         
+        UIFont *font = [UIFont boldSystemFontOfSize:1.0];
+        for (int i = 0; i < 100; i++) {
+            font = [UIFont boldSystemFontOfSize:i];
+            if (font.lineHeight > self.bounds.size.height) {
+                break;
+            }
+        }
+        
+        NSDictionary *attributes = @{NSFontAttributeName:font,
+                                     NSForegroundColorAttributeName:UIColor.greenColor};
+        
         for (NSUInteger i = 0; i < self.maximumLength; i++) {
-            
             if (i < self.mutablePasscode.length) {
-                // draw circle
-                CGRect circleFrame = CGRectMake(origin.x, origin.y, self.dotSize.width, self.dotSize.height);
-                CGContextFillEllipseInRect(context, circleFrame);
-            } else {
-                // draw line
-                CGRect lineFrame = CGRectMake(origin.x, origin.y + floorf((self.dotSize.height - self.lineHeight) * 0.5f),
-                                              self.dotSize.width, self.lineHeight);
+                NSAttributedString *character = [[NSAttributedString alloc] initWithString:@"2" attributes:attributes];
+                [character drawAtPoint:CGPointMake(origin.x + (self.dotSize.width - character.size.width)/2.0, (self.bounds.size.height - character.size.height)/2.0)];
+            }
+            else {
+                CGRect lineFrame = CGRectMake(origin.x, origin.y + floorf((self.dotSize.height - self.lineHeight)/2.0), self.dotSize.width, self.lineHeight);
                 CGContextFillRect(context, lineFrame);
             }
             
             origin.x += (self.dotSize.width + self.dotSpacing);
+        }
+    }
+    else {
+        if ([self.imageSource respondsToSelector:@selector(passcodeField:dotImageAtIndex:filled:)]) {
+            for (NSUInteger i = 0; i < self.maximumLength; i++) {
+                UIImage *image = nil;
+                if (i < self.mutablePasscode.length) {
+                    image = [self.imageSource passcodeField:self dotImageAtIndex:i filled:YES];
+                }
+                else {
+                    image = [self.imageSource passcodeField:self dotImageAtIndex:i filled:NO];
+                }
+                
+                if (image) {
+                    CGRect imageFrame = CGRectMake(origin.x, origin.y, self.dotSize.width, self.dotSize.height);
+                    [image drawInRect:imageFrame];
+                }
+                
+                origin.x += (self.dotSize.width + self.dotSpacing);
+            }
+        }
+        else {
+            CGContextRef context = UIGraphicsGetCurrentContext();
+            CGContextSetFillColorWithColor(context, self.dotColor.CGColor);
+            
+            for (NSUInteger i = 0; i < self.maximumLength; i++) {
+                if (i < self.mutablePasscode.length) {
+                    CGRect circleFrame = CGRectMake(origin.x, origin.y, self.dotSize.width, self.dotSize.height);
+                    CGContextFillEllipseInRect(context, circleFrame);
+                }
+                else {
+                    CGRect lineFrame = CGRectMake(origin.x, origin.y + floorf((self.dotSize.height - self.lineHeight)/2.0), self.dotSize.width, self.lineHeight);
+                    CGContextFillRect(context, lineFrame);
+                }
+                
+                origin.x += (self.dotSize.width + self.dotSpacing);
+            }
         }
     }
 }

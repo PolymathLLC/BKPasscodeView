@@ -21,12 +21,15 @@
 @property (nonatomic, strong) NSString *passcode;
 
 // configurations
-@property (nonatomic) NSUInteger maximumLength;
-@property (nonatomic) CGSize dotSize;
-@property (nonatomic) CGFloat lineHeight;
-@property (nonatomic) CGFloat dotSpacing;
+@property (nonatomic, assign) NSUInteger maximumLength;
+@property (nonatomic, assign) UIKeyboardType keyboardType;
+
+@property (nonatomic, assign) BOOL disableSecure;
+
 @property (nonatomic, strong) UIColor *dotColor;
-@property (nonatomic) UIKeyboardType keyboardType;
+@property (nonatomic, assign) CGSize dotSize;
+@property (nonatomic, assign) CGFloat lineHeight;
+@property (nonatomic, assign) CGFloat dotSpacing;
 
 @end
 

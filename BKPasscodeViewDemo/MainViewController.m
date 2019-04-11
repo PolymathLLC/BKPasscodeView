@@ -185,6 +185,8 @@
     viewController.canSkip = TRUE;
     viewController.canCancel = TRUE;
     
+    [viewController.passcodeInputView setDisableSecure:true];
+    
     // Passcode style (numeric or ASCII)
     viewController.passcodeStyle = BKPasscodeInputViewNumericPasscodeStyle;
     [viewController setCancelButtonTitle:@"Cancel" font:[UIFont systemFontOfSize:20.0] color:UIColor.redColor];
