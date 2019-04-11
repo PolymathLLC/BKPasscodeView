@@ -73,14 +73,15 @@ typedef enum : NSUInteger {
         
         self.keyboardHeight = kBKPasscodeDefaultKeyboardHeight;
         self.backgroundColor = UIColor.whiteColor;
+        self.canCancel = YES;
     }
     return self;
 }
 
-- (void)setDisableCancel:(BOOL)disableCancel
+- (void)setCanCancel:(BOOL)canCancel
 {
-    _disableCancel = disableCancel;
-    self.cancelButton.hidden = disableCancel;
+    _canCancel = canCancel;
+    self.cancelButton.hidden = !canCancel;
 }
 
 - (void)setCancelButtonTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color
