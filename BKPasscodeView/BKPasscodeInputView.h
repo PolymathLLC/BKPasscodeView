@@ -26,6 +26,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) UIKeyboardType keyboardType;
 @property (nonatomic, assign) NSUInteger maximumLength;
 @property (nonatomic, assign) BOOL disableSecure;
+@property (nonatomic, strong) UIColor *dotColor;
 
 @property (nonatomic, strong) LanguageSettings *language;
 
@@ -46,13 +47,14 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *passcode;
 
 @property (nonatomic, strong, readonly) UIControl *passcodeField;
-@property (nonatomic, strong) UIColor *dotColor;
 
 + (void)configureTitleLabel:(UILabel *)aLabel;
 + (void)configureMessageLabel:(UILabel *)aLabel;
 + (void)configureErrorMessageLabel:(UILabel *)aLabel;
 
 - (CGFloat)labelPasscodeSpace;
+
+- (void)resetPasscode;
 
 @end
 

@@ -221,6 +221,15 @@
     }
 }
 
+- (void)setDotColor:(UIColor *)dotColor
+{
+    _dotColor = dotColor;
+    
+    if ([self.passcodeField isKindOfClass:[BKPasscodeField class]]) {
+        [(BKPasscodeField *)self.passcodeField setDotColor:dotColor];
+    }
+}
+
 - (void)setKeyboardType:(UIKeyboardType)keyboardType
 {
     _isKeyboardTypeSet = YES;
@@ -290,6 +299,21 @@
         case BKPasscodeInputViewNormalPasscodeStyle:
              [(UITextField *)self.passcodeField setText:passcode];
              break;
+    }
+}
+
+- (void)clearPasscode
+{
+    self.passcode = nil;
+}
+
+- (void)resetPasscode
+{
+    if (self.disableSecure) {
+        [self performSelector:@selector(clearPasscode) withObject:nil afterDelay:0.5];
+    }
+    else {
+        [self clearPasscode];
     }
 }
 

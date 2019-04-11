@@ -23,7 +23,6 @@
 // configurations
 @property (nonatomic, assign) NSUInteger maximumLength;
 @property (nonatomic, assign) UIKeyboardType keyboardType;
-
 @property (nonatomic, assign) BOOL disableSecure;
 
 @property (nonatomic, strong) UIColor *dotColor;

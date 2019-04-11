@@ -85,6 +85,30 @@
     [self setNeedsDisplay];
 }
 
+- (void)setDotColor:(UIColor *)dotColor
+{
+    _dotColor = dotColor;
+    [self setNeedsDisplay];
+}
+
+- (void)setDotSpacing:(CGFloat)dotSpacing
+{
+    _dotSpacing = dotSpacing;
+    [self setNeedsDisplay];
+}
+
+- (void)setLineHeight:(CGFloat)lineHeight
+{
+    _lineHeight = lineHeight;
+    [self setNeedsDisplay];
+}
+
+- (void)setDisableSecure:(BOOL)disableSecure
+{
+    _disableSecure = disableSecure;
+    [self setNeedsDisplay];
+}
+
 #pragma mark - UIKeyInput
 
 - (BOOL)hasText
@@ -184,7 +208,7 @@
 
 - (CGSize)contentSize
 {
-    return CGSizeMake(self.maximumLength * self.dotSize.width + (self.maximumLength - 1) * self.dotSpacing, self.dotSize.height*2.0);
+    return CGSizeMake(self.maximumLength * self.dotSize.width + (self.maximumLength - 1) * self.dotSpacing, self.dotSize.height*2.5);
 }
 
 - (void)setFrame:(CGRect)frame
@@ -199,70 +223,51 @@
     CGPoint origin = CGPointMake(floorf((self.frame.size.width - contentSize.width)/2.0),
                                  floorf((self.frame.size.height - self.dotSize.height)/2.0));
     
-    if (self.disableSecure) {
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        CGContextSetFillColorWithColor(context, self.dotColor.CGColor);
-        
-        UIFont *font = [UIFont boldSystemFontOfSize:1.0];
-        for (int i = 0; i < 100; i++) {
-            font = [UIFont boldSystemFontOfSize:i];
-            if (font.lineHeight > self.bounds.size.height) {
-                break;
+    UIFont *font = [UIFont boldSystemFontOfSize:32.0];
+    NSDictionary *attributes = @{NSFontAttributeName:font, NSForegroundColorAttributeName:(self.dotColor == nil) ? UIColor.blackColor:self.dotColor};
+    
+    for (NSUInteger i = 0; i < self.maximumLength; i++) {
+        if (i < self.mutablePasscode.length) {
+            if (self.disableSecure) {
+                NSString *character = [self.passcode substringWithRange:NSMakeRange(i, 1)];
+                NSAttributedString *attributedCharacter = [[NSAttributedString alloc] initWithString:character attributes:attributes];
+                [attributedCharacter drawAtPoint:CGPointMake(origin.x + (self.dotSize.width - attributedCharacter.size.width)/2.0, (self.bounds.size.height - attributedCharacter.size.height)/2.0)];
             }
-        }
-        
-        NSDictionary *attributes = @{NSFontAttributeName:font,
-                                     NSForegroundColorAttributeName:UIColor.greenColor};
-        
-        for (NSUInteger i = 0; i < self.maximumLength; i++) {
-            if (i < self.mutablePasscode.length) {
-                NSAttributedString *character = [[NSAttributedString alloc] initWithString:@"2" attributes:attributes];
-                [character drawAtPoint:CGPointMake(origin.x + (self.dotSize.width - character.size.width)/2.0, (self.bounds.size.height - character.size.height)/2.0)];
-            }
-            else {
-                CGRect lineFrame = CGRectMake(origin.x, origin.y + floorf((self.dotSize.height - self.lineHeight)/2.0), self.dotSize.width, self.lineHeight);
-                CGContextFillRect(context, lineFrame);
-            }
-            
-            origin.x += (self.dotSize.width + self.dotSpacing);
-        }
-    }
-    else {
-        if ([self.imageSource respondsToSelector:@selector(passcodeField:dotImageAtIndex:filled:)]) {
-            for (NSUInteger i = 0; i < self.maximumLength; i++) {
-                UIImage *image = nil;
-                if (i < self.mutablePasscode.length) {
-                    image = [self.imageSource passcodeField:self dotImageAtIndex:i filled:YES];
-                }
-                else {
-                    image = [self.imageSource passcodeField:self dotImageAtIndex:i filled:NO];
-                }
+            else if ([self.imageSource respondsToSelector:@selector(passcodeField:dotImageAtIndex:filled:)]) {
+                UIImage *image = [self.imageSource passcodeField:self dotImageAtIndex:i filled:YES];
                 
                 if (image) {
                     CGRect imageFrame = CGRectMake(origin.x, origin.y, self.dotSize.width, self.dotSize.height);
                     [image drawInRect:imageFrame];
                 }
+            }
+            else {
+                CGContextRef context = UIGraphicsGetCurrentContext();
+                CGContextSetFillColorWithColor(context, self.dotColor.CGColor);
                 
-                origin.x += (self.dotSize.width + self.dotSpacing);
+                CGRect circleFrame = CGRectMake(origin.x, origin.y, self.dotSize.width, self.dotSize.height);
+                CGContextFillEllipseInRect(context, circleFrame);
             }
         }
         else {
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            CGContextSetFillColorWithColor(context, self.dotColor.CGColor);
-            
-            for (NSUInteger i = 0; i < self.maximumLength; i++) {
-                if (i < self.mutablePasscode.length) {
-                    CGRect circleFrame = CGRectMake(origin.x, origin.y, self.dotSize.width, self.dotSize.height);
-                    CGContextFillEllipseInRect(context, circleFrame);
-                }
-                else {
-                    CGRect lineFrame = CGRectMake(origin.x, origin.y + floorf((self.dotSize.height - self.lineHeight)/2.0), self.dotSize.width, self.lineHeight);
-                    CGContextFillRect(context, lineFrame);
-                }
+            if ([self.imageSource respondsToSelector:@selector(passcodeField:dotImageAtIndex:filled:)]) {
+                UIImage *image = [self.imageSource passcodeField:self dotImageAtIndex:i filled:NO];
                 
-                origin.x += (self.dotSize.width + self.dotSpacing);
+                if (image) {
+                    CGRect imageFrame = CGRectMake(origin.x, origin.y, self.dotSize.width, self.dotSize.height);
+                    [image drawInRect:imageFrame];
+                }
+            }
+            else {
+                CGContextRef context = UIGraphicsGetCurrentContext();
+                CGContextSetFillColorWithColor(context, self.dotColor.CGColor);
+                
+                CGRect lineFrame = CGRectMake(origin.x, origin.y + floorf((self.dotSize.height - self.lineHeight)/2.0), self.dotSize.width, self.lineHeight);
+                CGContextFillRect(context, lineFrame);
             }
         }
+        
+        origin.x += (self.dotSize.width + self.dotSpacing);
     }
 }
 

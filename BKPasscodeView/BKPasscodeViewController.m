@@ -504,7 +504,7 @@ typedef enum : NSUInteger {
                     [self showFailedAttemptsCount:failCount inputView:aInputView];
                     
                     // reset entered passcode
-                    aInputView.passcode = nil;
+                    [aInputView resetPasscode];
                     
                     // shake
                     self.viewShaker = [[AFViewShaker alloc] initWithView:aInputView.passcodeField];
