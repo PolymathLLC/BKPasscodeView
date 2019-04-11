@@ -77,6 +77,12 @@ typedef enum : NSUInteger {
     return self;
 }
 
+- (void)setDisableCancel:(BOOL)disableCancel
+{
+    _disableCancel = disableCancel;
+    self.cancelButton.hidden = disableCancel;
+}
+
 - (void)setCancelButtonTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color
 {
     [self.cancelButton setTitle:title forState:UIControlStateNormal];

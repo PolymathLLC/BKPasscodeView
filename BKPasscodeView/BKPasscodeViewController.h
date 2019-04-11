@@ -26,7 +26,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BKPasscodeViewControllerType type;
 @property (nonatomic, assign) BKPasscodeInputViewPasscodeStyle passcodeStyle;
 @property (nonatomic, assign) BOOL canSkip;
-    
+@property (nonatomic, assign) BOOL disableCancel;
+
 @property (nonatomic, assign) UIKeyboardType keyboardType;
 @property (nonatomic, strong, readonly) BKPasscodeInputView *passcodeInputView;
 @property (nonatomic, strong) BKTouchIDManager *touchIDManager;
