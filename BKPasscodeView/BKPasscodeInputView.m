@@ -8,16 +8,7 @@
 
 #import "BKPasscodeInputView.h"
 
-#define kLabelPasscodeSpacePortrait         (30.0f)
-#define kLabelPasscodeSpaceLandscape        (10.0f)
-
-#define kTextLeftRightSpace                 (20.0f)
-
-#define kErrorMessageLeftRightPadding       (10.0f)
-#define kErrorMessageTopBottomPadding       (5.0f)
-
-#define kDefaultNumericPasscodeMaximumLength        (4)
-#define kDefaultNormalPasscodeMaximumLength         (20)
+#import "BKPasscodeUtils.h"
 
 @interface BKPasscodeInputView () {
     BOOL _isKeyboardTypeSet;
@@ -77,22 +68,18 @@
     _errorMessageLabel.hidden = YES;
     [self addSubview:_errorMessageLabel];
 }
-
-+ (void)configureHeaderTitleLabel:(UILabel *)aLabel
+    
+- (CGRect)titleFrame
 {
-    aLabel.backgroundColor = [UIColor clearColor];
-    aLabel.numberOfLines = 1;
-    aLabel.textAlignment = NSTextAlignmentCenter;
-    aLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    aLabel.font = [UIFont boldSystemFontOfSize:21.0f];
+    return self.titleLabel.frame;
 }
 
 + (void)configureTitleLabel:(UILabel *)aLabel
 {
     aLabel.backgroundColor = [UIColor clearColor];
-    aLabel.numberOfLines = 1;
+    aLabel.numberOfLines = 2;
     aLabel.textAlignment = NSTextAlignmentCenter;
-    aLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    aLabel.lineBreakMode = NSLineBreakByWordWrapping;
     aLabel.font = [UIFont boldSystemFontOfSize:15.0f];
 }
 
@@ -406,7 +393,6 @@
     if ([self.passcodeField isKindOfClass:[UITextField class]]) {
         self.passcodeField.frame = CGRectMake(0, 0, self.frame.size.width - kTextLeftRightSpace * 2.0f, CGRectGetHeight(self.passcodeField.frame) + 10.0f);
     }
-
     self.passcodeField.center = CGPointMake(CGRectGetWidth(self.frame) * 0.5f, CGRectGetHeight(self.frame) * 0.5f);
     
     CGFloat maxTextWidth = self.frame.size.width - (kTextLeftRightSpace * 2.0f);

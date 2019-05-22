@@ -96,16 +96,12 @@ typedef enum : NSUInteger {
     self.titleLabel.text = title;
     self.titleLabel.font = font;
     self.titleLabel.textColor = color;
-    
-    [self.titleLabel sizeToFit];
     [self configTitleLabelFrame];
 }
 
 - (void)setTitleLabelAttributedTitle:(NSAttributedString *)attributedTitle
 {
     self.titleLabel.attributedText = attributedTitle;
-    
-    [self.titleLabel sizeToFit];
     [self configTitleLabelFrame];
 }
 
@@ -219,9 +215,26 @@ typedef enum : NSUInteger {
         topBarOffset = [self.topLayoutGuide length];
     }
     
-    CGRect frame = self.titleLabel.frame;
+    NSMutableAttributedString *attributedText = nil;
+    
+    if (self.titleLabel.attributedText) {
+        attributedText = self.titleLabel.attributedText.mutableCopy;
+    }
+    else {
+        attributedText = [[NSMutableAttributedString alloc] initWithString:self.titleLabel.text attributes:@{NSFontAttributeName: self.titleLabel.font}];
+    }
+    
+    NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+    [attributedText addAttribute:NSParagraphStyleAttributeName value:paragraph range:NSMakeRange(0, attributedText.length)];
+    
+    float width = self.view.bounds.size.width - 2*kTextLeftRightSpace;
+    float height = [attributedText boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil].size.height;
+    
+    CGRect frame = (CGRect){CGPointZero, CGSizeMake(width, ceilf(height))};
     frame.origin.x = (self.view.bounds.size.width - frame.size.width)/2.0;
-    frame.origin.y = topBarOffset + [self.passcodeInputView labelPasscodeSpace]*1.5;
+    frame.origin.y = self.passcodeInputView.frame.origin.y + (self.passcodeInputView.titleFrame.origin.y - frame.size.height)/2.0;
     self.titleLabel.frame = frame;
 }
     

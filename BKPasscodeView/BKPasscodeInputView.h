@@ -48,6 +48,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong, readonly) UIControl *passcodeField;
 
+@property (nonatomic, assign) CGRect titleFrame;
+    
 + (void)configureTitleLabel:(UILabel *)aLabel;
 + (void)configureMessageLabel:(UILabel *)aLabel;
 + (void)configureErrorMessageLabel:(UILabel *)aLabel;
