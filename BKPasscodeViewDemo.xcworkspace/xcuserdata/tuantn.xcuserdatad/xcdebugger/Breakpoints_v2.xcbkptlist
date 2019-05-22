@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BKPasscodeView/BKPasscodeViewController.m"
-            timestampString = "580205040.007419"
+            timestampString = "580208198.227612"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "373"
-            endingLineNumber = "373"
+            startingLineNumber = "360"
+            endingLineNumber = "360"
             landmarkName = "-startTouchIDAuthenticationIfPossible:"
             landmarkType = "7">
          </BreakpointContent>

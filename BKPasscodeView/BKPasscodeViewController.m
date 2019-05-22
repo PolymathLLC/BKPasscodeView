@@ -210,32 +210,14 @@ typedef enum : NSUInteger {
 
 - (void)configTitleLabelFrame
 {
-    CGFloat topBarOffset = 0;
-    if ([self respondsToSelector:@selector(topLayoutGuide)]) {
-        topBarOffset = [self.topLayoutGuide length];
-    }
-    
-    NSMutableAttributedString *attributedText = nil;
-    
-    if (self.titleLabel.attributedText) {
-        attributedText = self.titleLabel.attributedText.mutableCopy;
-    }
-    else {
-        attributedText = [[NSMutableAttributedString alloc] initWithString:self.titleLabel.text attributes:@{NSFontAttributeName: self.titleLabel.font}];
-    }
-    
-    NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
-    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
-    paragraph.alignment = NSTextAlignmentCenter;
-    [attributedText addAttribute:NSParagraphStyleAttributeName value:paragraph range:NSMakeRange(0, attributedText.length)];
-    
-    float width = self.view.bounds.size.width - 2*kTextLeftRightSpace;
-    float height = [attributedText boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil].size.height;
-    
-    CGRect frame = (CGRect){CGPointZero, CGSizeMake(width, ceilf(height))};
+    CGRect frame = (CGRect){CGPointZero, CGSizeMake(self.view.bounds.size.width - 2*kTextLeftRightSpace, self.passcodeInputView.titleFrame.origin.y)};
     frame.origin.x = (self.view.bounds.size.width - frame.size.width)/2.0;
-    frame.origin.y = self.passcodeInputView.frame.origin.y + (self.passcodeInputView.titleFrame.origin.y - frame.size.height)/2.0;
+    frame.origin.y = self.shiftingView.frame.origin.y;
     self.titleLabel.frame = frame;
+    
+//    self.titleLabel.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.2];
+//    self.passcodeInputView.backgroundColor = UIColor.blueColor;
+//    self.shiftingView.backgroundColor = UIColor.blueColor;
 }
     
 - (void)configButtonFrame
